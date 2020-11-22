@@ -40,7 +40,9 @@ class Play extends Phaser.Scene {
         this.sliderDirection = "right";
         this.sliderSpeed = 10;
 
-        console.log(this.timingBar);
+        //attack timing text
+        this.timingText = this.add.text(CENTER_X, 10, "", { font: "40px Arial" });
+        this.timingText.x -= this.timingText.width/2;
     }
 
     update() {
@@ -55,12 +57,14 @@ class Play extends Phaser.Scene {
         //if slider hits right edge of bar, change its direction 
         if( this.timingSlider.x >= (SCREEN_WIDTH - this.timingSlider.width) ) {
             this.sliderDirection = "left";
-            this.timingBar.fillColor = 0x0000C8; //reset bar to blue 
+            this.timingBar.fillColor = 0x0000C8; //reset bar to blue
+            this.timingText.setText(""); //erase text
         }
         //if slider hits left edge of bar, change its direction
         else if ( this.timingSlider.x <= (0 + this.timingSlider.width) ) {
             this.sliderDirection = "right";
             this.timingBar.fillColor = 0x0000C8; //reset bar to blue 
+            this.timingText.setText(""); //erase text
         }
 
 
@@ -75,14 +79,26 @@ class Play extends Phaser.Scene {
 
             console.log(this.accuracy);
 
+            //player hits spacebar w/in 50 px of timingBox
             if(this.accuracy < 50) {
                 this.timingBar.fillColor = 0x6ECE2A; //green
+                this.timingText.setTint(0x6ECE2A); 
+                this.timingText.setText("EXCELLENT!");
+                this.timingText.x = CENTER_X - this.timingText.width/2;
             }
+            //player hits spacebar w/in 100 px of timingBox
             else if(this.accuracy < 100) {
                 this.timingBar.fillColor = 0xFFEF33; //yellow
+                this.timingText.setTint(0xFFEF33);
+                this.timingText.setText("GOOD");
+                this.timingText.x = CENTER_X - this.timingText.width/2;
             }
+            //player hits spacebar outside of 100 px
             else {
                 this.timingBar.fillColor = 0xFF0000; //red
+                this.timingText.setTint(0xFF0000);
+                this.timingText.setText("you suck");
+                this.timingText.x = CENTER_X - this.timingText.width/2;
             }
         }
     }
