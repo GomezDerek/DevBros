@@ -4,8 +4,8 @@
 // main game object
 let config = {
     type: Phaser.WEBGL,
-    width: 840,
-    height: 525,
+    width: 960,
+    height: 640,
     physics: {
         default: 'arcade',
         arcade: {
@@ -29,4 +29,4 @@ const CENTER_Y = game.config.height/2;
 const SCREEN_WIDTH = game.config.width;
 const SCREEN_HEIGHT = game.config.height;
 
-var SPACE_BAR;
+var SPACEBAR;
