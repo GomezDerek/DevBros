@@ -70,12 +70,12 @@ class Play extends Phaser.Scene {
         //attack timing slider
         var timingSliderColor = new Phaser.Display.Color(0, 0, 0);
         //this.timingSlider = this.add.rectangle(CENTER_X, 100, 50, 50, timingSliderColor.color);
-        this.timingSlider = this.add.rectangle(25, 100, 10, 50, 0xFFFFFF);
+        this.timingSlider = this.add.rectangle(-5, 100, 10, 50, 0xFFFFFF);
         this.sliderDirection = "right";
         this.sliderSpeed = 10;
 
         //attack timing text
-        this.timingText = this.add.text(CENTER_X, 10, "", { font: "40px Arial" });
+        this.timingText = this.add.text(CENTER_X, 10, "Hold SPACE to attack", { font: "40px Arial" });
         this.timingText.x -= this.timingText.width/2;
 
         
@@ -98,6 +98,12 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+        //stop slider if it reaches end of screen 
+        if(this.timingSlider.x >= (SCREEN_WIDTH - this.timingSlider.width/2) ) {
+            this.finishAttackMeter();
+            this.timingSlider.x = SCREEN_WIDTH - this.timingSlider.width/2;
+        }
+
         // if(this.attacking) {
         //     this.slideTimer = this.time.addEvent( {
         //         delay: 10, //ms
