@@ -16,7 +16,7 @@ let config = {
             }
         }
     },
-    scene: [ Play ]
+    scene: [ Move, Play ]
 };
 
 // define game
@@ -29,4 +29,4 @@ const CENTER_Y = game.config.height/2;
 const SCREEN_WIDTH = game.config.width;
 const SCREEN_HEIGHT = game.config.height;
 
-var SPACEBAR;
+var SPACEBAR, RIGHTKEY, LEFTKEY, DOWNKEY, UPKEY, A_KEY, W_KEY, S_KEY, D_KEY, E_KEY;

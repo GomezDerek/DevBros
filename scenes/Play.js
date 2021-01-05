@@ -8,15 +8,19 @@ class Play extends Phaser.Scene {
     preload() {
         //set load path 
         this.load.path = "assets/";
+
         //load character images 
-        this.load.image("hero", "protag fill.png");
-        this.load.image("skeleman", "skelemen.png");
-        this.load.image('dragonGirl', 'dragongirl.png');
+        //this.load.path = "/images";
+        this.load.image("hero", "images/protag fill.png");
+        this.load.image("skeleman", "images/skelemen.png");
+        this.load.image('dragonGirl', 'images/dragongirl.png');
+
+        //this.load.path = "../audio";
         //load the music!
-        this.load.audio('fightSong', 'A Duel Against Traitors (Ver.2).mp3');
+        this.load.audio('fightSong', 'audio/A Duel Against Traitors (Ver.2).mp3');
         //load sound effects 
-        this.load.audio("ultimate", "omae wa mou shindeiru NANI.mp3");
-        this.load.audio("fart", "fart-01.wav");
+        this.load.audio("ultimate", "audio/omae wa mou shindeiru NANI.mp3");
+        this.load.audio("fart", "audio/fart-01.wav");
     }
 
     create() {
@@ -39,7 +43,6 @@ class Play extends Phaser.Scene {
         var bg = this.add.rectangle(CENTER_X, CENTER_Y, SCREEN_WIDTH, SCREEN_HEIGHT, bgColor.color);
         var battleWindow = this.add.rectangle(0, SCREEN_HEIGHT*(.33), SCREEN_WIDTH, 330, 0xFFFFFF).setOrigin(0,0);
 
-        
 
 
         // //set the scene for the cinematic!
@@ -78,13 +81,12 @@ class Play extends Phaser.Scene {
         this.timingText = this.add.text(CENTER_X, 10, "Hold SPACE to attack", { font: "40px Arial" });
         this.timingText.x -= this.timingText.width/2;
 
-        
+
 
         //add our hero into the game!
         this.heroPosition = SCREEN_WIDTH/4;
         this.hero = this.physics.add.sprite(SCREEN_WIDTH/4, SCREEN_HEIGHT*(2/3), "hero").setOrigin(.5,.5).setScale(.1);
         this.hero.flipX = true;
-
 
         //add in the enemy
         this.enemy = this.physics.add.sprite(SCREEN_WIDTH*(3/4), SCREEN_HEIGHT*(2/3), "skeleman").setOrigin(.5,.5).setScale(.1);
@@ -95,9 +97,22 @@ class Play extends Phaser.Scene {
         console.log(battleWindow.geom.top - this.timingBar.geom.bottom);
         console.log(battleWindow)
 
+
+        //press e to return to the first scene
+        E_KEY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+        this.exitText = this.add.text(20, SCREEN_HEIGHT- 60, "Press [E] to exit", {font: "20px Arial"});
+
+
     }
 
     update() {
+
+        //press e to return to the first scene
+        if( Phaser.Input.Keyboard.JustDown(E_KEY) ) {
+            this.music.stop();
+            this.scene.start("moveScene");
+        }
+
         //stop slider if it reaches end of screen 
         if(this.timingSlider.x >= (SCREEN_WIDTH - this.timingSlider.width/2) ) {
             this.finishAttackMeter();
@@ -142,7 +157,8 @@ class Play extends Phaser.Scene {
             this.startAttackMeter();
         }
         //when spacebar is released
-        if( Phaser.Input.Keyboard.JustUp(SPACEBAR) ) {
+        //if( Phaser.Input.Keyboard.JustUp(SPACEBAR) ) {
+        if( Phaser.Input.Keyboard.JustUp(SPACEBAR) && this.timingSlider.x > (this.timingBar.x - this.timingBar.width/2 + this.timingSlider.width/2) ) {
 
             this.finishAttackMeter();
 
